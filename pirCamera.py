@@ -6,8 +6,6 @@ import datetime
 import subprocess
 import twitterPost 
 
-def getFileName():  
-    return datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S.h264")
 
 def securityStart():
     sensorPin = 7
@@ -15,29 +13,29 @@ def securityStart():
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(sensorPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-    prevState = False
-    currState = False
+    prev = False
+    curr = False
 
     cam = picamera.PiCamera()
-
+    num = 1
     while True:
-        time.sleep(0.1)
-        prevState = currState
-        currState = GPIO.input(sensorPin)
-        if currState != prevState:
-            newState = "HIGH" if currState else "LOW"
-            print "GPIO pin %s is %s" % (sensorPin, newState)
-            if currState:
-                #fileName = getFileName()
+        prev = curr
+        curr = GPIO.input(sensorPin)
+        if curr != prev:
+	    
+            if curr:
+                print "Camera on"
+		picName = "img.jpeg"
                 videoName = "video.h264"  
-                #cam.start_preview()
+		cam.capture(picName)
                 cam.start_recording(videoName)
-               # cam.capture(fileName)
+           
                 
             else:
-                #cam.stop_preview()
                 cam.stop_recording()
-                subprocess.call(["rm", "video.mp4"])
+                print "Camera off"
+		subprocess.call(["mv", "video.mp4", "securityCameraVideo/video" + str(num) + ".mp4"])
+		num = num + 1
                 subprocess.call(["MP4Box", "-add", videoName, "video.mp4"])  
                 twitterPost.tweet()
 

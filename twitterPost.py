@@ -8,7 +8,7 @@ def tweet():
 
     #print api.VerifyCredentials()
 
-    status = api.PostUpdate('blargh')
+    status = api.PostMedia('', 'img.jpeg')
 
     print status.text
 

@@ -18,7 +18,9 @@ function fetchImg() {
   		if (xmlhttp.readyState==4 && xmlhttp.status==200)
     		{
     			document.getElementById("info").innerHTML = xmlhttp.responseText;
-    		}
+    		}else if (xmlhttp.readyState ==4 ){
+			document.getElementById("info").innerHTML = "There was an error fetching the video information.";
+		}
   	}
 	xmlhttp.open("GET","/info",true);
 	xmlhttp.send();
@@ -55,9 +57,9 @@ div.outerdiv {
 border: 1px #888888 solid;
 padding: 5px;
 margin:0px auto;
-width: 50%;
+width: 65%;
 background-color: #a8a8a8;
-
+min-width:700px;
 -webkit-border-radius: 20px;
 -moz-border-radius: 20px;
 border-radius: 20px;
@@ -65,7 +67,7 @@ border-radius: 20px;
 h2 {
  text-align:center; 
  font-family:Arial;
- margin:10px 0px 0px 0px; 
+ margin:10px 0px 10px 0px; 
 }
 p {
   text-align:center;
@@ -103,13 +105,13 @@ button:hover {
 <div class="outerdiv">
 <h2>Pi Security Camera</h2>
 <div style="margin:0px auto;text-align:center;">
-<video id="cam" width="480" height="320" onloadeddata="log()">
+<video id="cam" width="650" onloadeddata="log()">
 	<source src="/update" type="video/mp4"/>
 Your browser does not support .mp4 video.
 </video>
 </div>
 <div style="margin:0px auto;text-align:center;">
-<button onclick="restartVideo()">Restart</button>
+<button onclick="restartVideo()">Refresh</button>
 <button id="btnPlay" onclick="playVideo()" disabled>Play</button>
 <p id="info"/>
 </div>
