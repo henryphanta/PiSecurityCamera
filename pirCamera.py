@@ -17,6 +17,7 @@ def securityStart():
     curr = False
 
     cam = picamera.PiCamera()
+    cam.vflip = True
     num = 1
     while True:
         prev = curr
